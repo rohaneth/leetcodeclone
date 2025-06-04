@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { About } from "./components/About";
 import { Landing } from "./components/Landing";
 import { Submissions } from "./components/Sumissions";
+import { ProblemDetail } from "./components/ProblemDetail";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAjjsbl9eSDWSmfrWpFPap2uGuwONZ2N4g",
@@ -70,8 +71,8 @@ function StoreApp() {
   }
   
   return (
-    <div className="place-items-center grid">
-      <div className="max-w-screen-lg w-full">
+    <div className="min-h-screen bg-gray-900 text-gray-100">
+      <div className="max-w-screen-xl mx-auto px-4">
       <Router>
         <Topbar />
           <Routes>
@@ -79,6 +80,7 @@ function StoreApp() {
             <Route path="/about" element={<About />} />
             <Route path="/activity" element={<Submissions />} />
             <Route path="/problems" element={<ProblemList problemList={problemList} />} />
+            <Route path="/problems/:problemId" element={<ProblemDetail />} />
           </Routes>
         </Router>
         {/* <Leaderboard /> */}

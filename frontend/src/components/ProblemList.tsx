@@ -1,6 +1,5 @@
-// see https://erdos.sdslabs.co/problems specifically the list of problems
-
 import { TagContainer } from "./Tag";
+import { useNavigate } from "react-router-dom";
 
 interface ProblemType {
   id: string;
@@ -13,40 +12,46 @@ export const ProblemList = ({
 }: {
   problemList: ProblemType[];
 }) => {
+  const navigate = useNavigate();
+
+  const handleProblemClick = (problemId: string) => {
+    navigate(`/problems/${problemId}`);
+  };
 
   return (
-    // The first div sould probably be a reusable component for layouting
-    <div className="my-8">
-      <h1 className="text-bold text-4xl my-8 text-bold">All Problems</h1>
-      <div className="shadow-md bg-gray-50 px-4 py-4">
-        <div className="flex justify-between mb-8 font-semibold text-lg">
-          <div className="flex gap-8">
-            <div className="w-1/3 ">Id</div>
-            <div className="w-1/3">Problem Name</div>
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-4xl font-bold mb-6">All Problems</h1>
+        <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+          {/* Table Header */}
+          <div className="grid grid-cols-6 gap-4 bg-gray-700 px-4 py-3 text-gray-300 uppercase text-sm font-semibold">
+            <div className="col-span-1">Id</div>
+            <div className="col-span-3">Problem Name</div>
+            <div className="col-span-2 text-right">Recently Solved</div>
           </div>
-          <div className="w-1/3">Recently Solved</div>
-        </div>
 
-        {/* Rows */}
-        {problemList.map((item) => (
-          // ROW
-          <div
-            key={item.id}
-            className="flex justify-between items-center mb-4 bg-white p-4 shadow-sm rounded-md"
-          >
-            <div className="flex gap-16 w-1/3">
-              <div>{item.id}</div>
-              <div>
-                <div className="text-xl mb-2">{item.problemName}</div>
-                <TagContainer tags={item.tags} />
+          {/* Rows */}
+          {problemList.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleProblemClick(item.id)}
+              className="grid grid-cols-6 gap-4 items-center border-b border-gray-700 hover:bg-gray-700 px-4 py-4 cursor-pointer transition-colors"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && handleProblemClick(item.id)}
+            >
+              <div className="col-span-1 font-medium text-lg">{item.id}</div>
+              <div className="col-span-3">
+                <div className="text-lg font-semibold hover:underline">{item.problemName}</div>
+                <TagContainer tags={item.tags} darkMode />
+              </div>
+              <div className="col-span-2 text-right text-gray-400">
+                <span className="text-gray-500">Last submission: </span>
+                <span className="font-medium">Anirudh</span>
               </div>
             </div>
-            <div className="w-1/3 text-lg">
-              <span className="text-gray-500">Last submission: </span>{" "}
-              {"Anirudh"}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
